@@ -74,5 +74,21 @@ def create_article():
         return render_template('create-article.html')
 
 
+@app.route('/posts/<int:id>/update', methods=['POST', 'GET'])
+def update_article(id):
+    article = Article.query.get(id)
+    if request.method == 'POST':
+        article.title = request.form['title']
+        article.intro = request.form['intro']
+        article.text = request.form['text']
+        try:
+            db.session.commit()
+            return redirect('/posts')
+        except:
+            return "Error: can not update article"
+    else:
+        return render_template('update_article.html', article=article)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

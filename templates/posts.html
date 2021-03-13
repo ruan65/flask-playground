@@ -5,6 +5,7 @@ All Articles
 {% block body %}
 <div class="container">
     <h1>All Articles</h1>
+    {% if articles|length > 0 %}
     {% for el in articles %}
     <div class="alert alert-info">
         <h2>{{el.title}}</h2>
@@ -13,5 +14,8 @@ All Articles
         <a href="/posts/{{ el.id }}" class="btn btn-warning">Details</a>
     </div>
     {% endfor %}
+    {% else %}
+    <p>No Articles</p>
+    {% endif %}
 </div>
 {% endblock %}
