@@ -5,6 +5,13 @@ All Articles
 {% block body %}
 <div class="container">
     <h1>All Articles</h1>
-    {{articles[0].title}}
+    {% for el in articles %}
+    <div class="alert alert-info">
+        <h2>{{el.title}}</h2>
+        <p>{{el.intro}}</p>
+        <p><b>Date: {{el.date.strftime("%Y-%m-%d %H:%M")}}</b></p>
+        <a href="/posts/{{ el.id }}" class="btn btn-warning">Details</a>
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}

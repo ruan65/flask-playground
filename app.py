@@ -35,8 +35,26 @@ def about():
 
 @app.route('/posts')
 def posts():
-    articles = Article.query.order_by(Article.date).all()
+    articles = Article.query.order_by(Article.date.desc()).all()
     return render_template('posts.html', articles=articles)
+
+
+@app.route('/posts/<int:id>')
+def post_detailed(id):
+    article = Article.query.get(id)
+    return render_template('post_detailed.html', article=article)
+
+
+@app.route('/posts/<int:id>/delete')
+def post_delete(id):
+    article = Article.query.get_or_404(id)
+
+    try:
+        db.session.delete(article)
+        db.session.commit()
+        return redirect('/posts')
+    except:
+        return 'Delete Error'
 
 
 @app.route('/create-article', methods=['POST', 'GET'])
@@ -49,7 +67,7 @@ def create_article():
         try:
             db.session.add(article)
             db.session.commit()
-            return redirect('/')
+            return redirect('/posts')
         except:
             return "Error: can not add article"
     else:
